@@ -1,0 +1,16 @@
+services:
+  abhimanyu_db:
+    image: postgres:16-alpine
+    container_name: abhimanyu_db
+    ports:
+      - "5444:5432"
+    environment:
+      POSTGRES_USER: ${DATBASE_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DATBASE_USERNAME:-admin}
+      POSTGRES_DB: ${DATBASE_NAME:-abhimanyu_db}
+    restart: "unless-stopped"
+    volumes:
+      - "abhimanyu_db_data:/var/lib/postgresql/data"
+
+volumes:
+  abhimanyu_db_data:

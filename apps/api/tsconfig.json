@@ -1,0 +1,9 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "extends": "@abhimanyu/typescript-config/base.json",
+  "compilerOptions": {
+    // File Layout
+    "rootDir": "./src",
+    "outDir": "./dist"
+  }
+}
