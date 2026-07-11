@@ -1,10 +1,8 @@
 {
   "extends": "@abhimanyu/typescript-config/react-library.json",
   "compilerOptions": {
-    "paths": {
-      "@abhimanyu/ui/*": ["./src/*"]
-    }
+    "outDir": "dist"
   },
-  "include": ["."],
+  "include": ["src", "turbo"],
   "exclude": ["node_modules", "dist"]
 }
