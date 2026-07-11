@@ -18,6 +18,7 @@
     "prisma": "^7.8.0"
   },
   "dependencies": {
+    "@abhimanyu/typescript-config": "workspace:*",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "pg": "^8.22.0"
