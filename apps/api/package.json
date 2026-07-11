@@ -13,12 +13,16 @@
   "license": "ISC",
   "dependencies": {
     "@abhimanyu/database": "workspace:*",
+    "@abhimanyu/services": "workspace:*",
     "@abhimanyu/trpc": "workspace:*",
     "@abhimanyu/typescript-config": "workspace:*",
     "@trpc/server": "^11.18.0",
+    "better-auth": "^1.6.23",
+    "cors": "^2.8.6",
     "express": "^5.2.1"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "tsup": "^8.5.1",
     "tsx": "^4.23.0",

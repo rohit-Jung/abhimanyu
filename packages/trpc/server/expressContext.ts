@@ -1,8 +1,16 @@
 import { CreateExpressContextOptions } from "@trpc/server/adapters/express";
+import { auth } from "@abhimanyu/services";
+import { fromNodeHeaders } from "better-auth/node";
 
 // created for each request
-export const createContext = ({
-  req,
-  res,
-}: CreateExpressContextOptions) => ({}); // no context
+export async function createContext({ req }: CreateExpressContextOptions) {
+  const session = await auth.api.getSession({
+    headers: fromNodeHeaders(req.headers),
+  });
+
+  return {
+    session,
+  };
+}
+
 export type Context = Awaited<ReturnType<typeof createContext>>;
