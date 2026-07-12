@@ -12,6 +12,7 @@ function ThemeProvider({
       attribute="class"
       defaultTheme="system"
       enableSystem
+      storageKey="abhimanyu_theme"
       disableTransitionOnChange
       {...props}
     >

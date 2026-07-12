@@ -1,11 +1,17 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, Roboto, Space_Grotesk } from "next/font/google"
 
 import "@abhimanyu/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 
-import { cn } from "@abhimanyu/ui/lib/utils";
+import { cn } from "@abhimanyu/ui/lib/utils"
+import { SonnerToaster } from "@/components/sonner-provider"
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'})
+const spaceGroteskHeading = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-heading",
+})
+
+const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" })
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -21,12 +27,20 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", geist.variable)}
+      className={cn(
+        "antialiased",
+        fontMono.variable,
+        "font-sans",
+        roboto.variable,
+        spaceGroteskHeading.variable
+      )}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <SonnerToaster />
+        </ThemeProvider>
       </body>
     </html>
   )
 }
-
