@@ -1,57 +1,32 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
   "ui": "stream-with-experimental-timestamps",
-  "globalEnv": [
-    "DATABASE_URL"
-  ],
+  "globalEnv": ["DATABASE_URL"],
   "tasks": {
     "quality": {
-      "dependsOn": [
-        "lint",
-        "format"
-      ]
+      "dependsOn": ["lint", "format"]
     },
     "quality:fix": {
-      "dependsOn": [
-        "lint:fix",
-        "format:fix"
-      ]
+      "dependsOn": ["lint:fix", "format:fix"]
     },
     "lint:fix": {
       "cache": false
     },
     "format": {},
     "format:fix": {
-      "dependsOn": [
-        "lint:fix"
-      ],
+      "dependsOn": ["lint:fix"],
       "cache": false
     },
     "build": {
-      "dependsOn": [
-        "^build",
-        "^db:generate"
-      ],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env*"
-      ],
-      "outputs": [
-        "dist/**",
-        ".next/**",
-        "!.next/cache/**",
-        "!.next/dev/**"
-      ]
+      "dependsOn": ["^build", "^db:generate"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!.next/dev/**"]
     },
     "lint": {
-      "dependsOn": [
-        "^lint"
-      ]
+      "dependsOn": ["^lint"]
     },
     "check-types": {
-      "dependsOn": [
-        "^check-types"
-      ]
+      "dependsOn": ["^check-types"]
     },
     "db:generate": {
       "cache": false
@@ -63,9 +38,7 @@
       "cache": false
     },
     "dev": {
-      "dependsOn": [
-        "^db:generate"
-      ],
+      "dependsOn": ["^db:generate"],
       "cache": false,
       "persistent": true
     }
