@@ -1,6 +1,7 @@
-import { prisma } from "@abhimanyu/database";
-import { prismaAdapter } from "@better-auth/prisma-adapter";
-import { betterAuth } from "better-auth";
+import "dotenv/config"
+import { prisma } from "@abhimanyu/database"
+import { prismaAdapter } from "@better-auth/prisma-adapter"
+import { betterAuth } from "better-auth"
 
 // auth.api.getAccessToken(...)
 // if (oauth)google access token is expired and we have refresh token then betterAuth automatically
@@ -10,8 +11,22 @@ import { betterAuth } from "better-auth";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
-    provider: "postgresql"
+    provider: "postgresql",
   }),
+
+  emailAndPassword: {
+    enabled: true,
+    minPasswordLength: 6,
+    maxPasswordLength: 18,
+  },
+
+  baseURL: process.env.BACKEND_URL ?? "http://localhost:4000", // auth backend endpoint?
+  basePath: "/api/auth",
+
+  // prevent CSRF attacks
+  trustedOrigins: process.env.TRUSTED_ORIGINS
+    ? process.env.TRUSTED_ORIGINS.split(",")
+    : [],
 
   // enable joins
   experimental: { joins: true },
@@ -25,7 +40,7 @@ export const auth = betterAuth({
     },
   },
 
-  // you can use redis too ? 
+  // you can use redis too ?
   // secondaryStorage: {}
   account: {
     // there can be cookie or header limits so for large JWT in production `db` is preferred
@@ -33,4 +48,4 @@ export const auth = betterAuth({
     // store provider account data after Oauth flow in `account_data` cookie which is encrypted
     storeAccountCookie: true,
   },
-});
+})
