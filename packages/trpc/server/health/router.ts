@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { publicProcedure, router } from "../trpc";
-import { healthOutputSchema } from "./schema";
+import { z } from "zod"
+import { publicProcedure, router } from "../trpc"
+import { healthOutputSchema } from "./schema"
 
 export const healthRouter = router({
   get: publicProcedure
@@ -10,6 +10,6 @@ export const healthRouter = router({
       return {
         message: "Server is up and running",
         status: "200",
-      };
+      }
     }),
-});
+})
