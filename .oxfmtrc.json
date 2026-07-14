@@ -7,6 +7,8 @@
   "trailingComma": "es5",
   "printWidth": 80,
   "sortPackageJson": false,
+  "jsxSingleQuote": false,
+  "sortImports": true,
   "sortTailwindcss": {
     "stylesheet": "packages/ui/src/styles/globals.css",
     "functions": ["cn", "cva"]
@@ -16,6 +18,7 @@
     "node_modules/",
     ".next/",
     ".turbo/",
+    "generated/",
     "coverage/",
     "pnpm-lock.yaml",
     ".pnpm-store/"
