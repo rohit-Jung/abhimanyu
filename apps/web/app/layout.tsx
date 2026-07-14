@@ -1,10 +1,10 @@
-import { Geist, Geist_Mono, Roboto, Space_Grotesk } from "next/font/google"
+import { cn } from "@abhimanyu/ui/lib/utils"
 
 import "@abhimanyu/ui/globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
+import { Geist, Geist_Mono, Roboto, Space_Grotesk } from "next/font/google"
 
-import { cn } from "@abhimanyu/ui/lib/utils"
 import { SonnerToaster } from "@/components/sonner-provider"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const spaceGroteskHeading = Space_Grotesk({
   subsets: ["latin"],

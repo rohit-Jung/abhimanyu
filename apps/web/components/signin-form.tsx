@@ -1,6 +1,5 @@
 "use client"
 
-import { cn } from "@abhimanyu/ui/lib/utils"
 import { Button } from "@abhimanyu/ui/components/button"
 import { Card, CardContent } from "@abhimanyu/ui/components/card"
 import {
@@ -11,10 +10,14 @@ import {
   FieldSeparator,
 } from "@abhimanyu/ui/components/field"
 import { Input } from "@abhimanyu/ui/components/input"
-import { SubmitHandler, useForm } from "react-hook-form"
-import { authClient } from "@/lib/auth-client"
-import { toast } from "sonner"
+import { cn } from "@abhimanyu/ui/lib/utils"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
 import { redirect } from "next/navigation"
+import { useState } from "react"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { toast } from "sonner"
+
+import { authClient } from "@/lib/auth-client"
 
 interface Inputs {
   email: string
@@ -31,6 +34,7 @@ export function SiginInForm({
     formState: { errors },
   } = useForm<Inputs>()
 
+  const [isPasswordHidden, setIsPasswordHidden] = useState<boolean>(false)
   const submitHandler: SubmitHandler<Inputs> = async (formData) => {
     const { data, error } = await authClient.signIn.email(formData)
     if (error) {
@@ -74,12 +78,27 @@ export function SiginInForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  {...register("password")}
-                />
+                <div className="relative flex h-8 items-center">
+                  <Input
+                    id="password"
+                    type={isPasswordHidden ? "password" : "text"}
+                    required
+                    {...register("password")}
+                  />
+                  <div className="absolute right-2">
+                    {isPasswordHidden ? (
+                      <EyeOffIcon
+                        size={16}
+                        onClick={() => setIsPasswordHidden(false)}
+                      />
+                    ) : (
+                      <EyeIcon
+                        size={16}
+                        onClick={() => setIsPasswordHidden(true)}
+                      />
+                    )}
+                  </div>
+                </div>
               </Field>
               <Field>
                 <Button type="submit">Login</Button>

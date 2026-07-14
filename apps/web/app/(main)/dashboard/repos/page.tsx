@@ -3,13 +3,12 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@abhimanyu/ui/components/breadcrumb"
 import { Separator } from "@abhimanyu/ui/components/separator"
 import { SidebarInset, SidebarTrigger } from "@abhimanyu/ui/components/sidebar"
 
-export default function Page() {
+export default async function Page() {
   return (
     <SidebarInset>
       <header className="flex h-16 w-full shrink-0 items-center gap-2 border-b px-4">
@@ -21,16 +20,9 @@ export default function Page() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="#">components</BreadcrumbLink>
+              <BreadcrumbLink href="#">Repos</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
-            <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="#">ui</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator className="hidden md:block" />
-            <BreadcrumbItem>
-              <BreadcrumbPage>button.tsx</BreadcrumbPage>
-            </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </header>
@@ -45,3 +37,4 @@ export default function Page() {
     </SidebarInset>
   )
 }
+

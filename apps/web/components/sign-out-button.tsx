@@ -1,9 +1,10 @@
 "use client"
 
-import { authClient } from "@/lib/auth-client"
 import { Button } from "@abhimanyu/ui/components/button"
 import { redirect } from "next/navigation"
 import { toast } from "sonner"
+
+import { authClient } from "@/lib/auth-client"
 
 export default function DashboardPage() {
   function signOut() {

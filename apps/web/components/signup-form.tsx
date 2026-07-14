@@ -1,6 +1,5 @@
 "use client"
 
-import { cn } from "@abhimanyu/ui/lib/utils"
 import { Button } from "@abhimanyu/ui/components/button"
 import {
   Field,
@@ -10,9 +9,13 @@ import {
   FieldSeparator,
 } from "@abhimanyu/ui/components/field"
 import { Input } from "@abhimanyu/ui/components/input"
+import { cn } from "@abhimanyu/ui/lib/utils"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
+import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"
+
+import { authClient } from "@/lib/auth-client"
 
 interface UserSignUp {
   name: string
@@ -32,6 +35,7 @@ export function SignupForm({
     formState: { errors },
   } = useForm<UserSignUp>()
 
+  const [isPasswordHidden, setIsPasswordHidden] = useState<boolean>(false)
   const submitHandler: SubmitHandler<UserSignUp> = async (formData) => {
     const { data, error } = await authClient.signUp.email(formData)
 
@@ -93,13 +97,23 @@ export function SignupForm({
         </Field>
         <Field>
           <FieldLabel htmlFor="password">Password</FieldLabel>
-          <Input
-            id="password"
-            type="password"
-            required
-            className="bg-background"
-            {...register("password")}
-          />
+          <div>
+            <Input
+              id="password"
+              type={isPasswordHidden ? "password" : "text"}
+              required
+              className="bg-background"
+              {...register("password")}
+            />
+            {isPasswordHidden ? (
+              <EyeOffIcon
+                size={16}
+                onClick={() => setIsPasswordHidden(false)}
+              />
+            ) : (
+              <EyeIcon size={16} onClick={() => setIsPasswordHidden(true)} />
+            )}
+          </div>
           <FieldDescription>
             Must be at least 6 characters long.
           </FieldDescription>

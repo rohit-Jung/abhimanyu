@@ -1,10 +1,10 @@
 import "dotenv/config"
-import express from "express"
-import { createExpressMiddleware } from "@trpc/server/adapters/express"
-import { appRouter, createContext } from "@abhimanyu/trpc/server"
 import { auth } from "@abhimanyu/services"
+import { appRouter, createContext } from "@abhimanyu/trpc/server"
+import { createExpressMiddleware } from "@trpc/server/adapters/express"
 import { toNodeHandler } from "better-auth/node"
 import cors from "cors"
+import express from "express"
 
 const app = express()
 
