@@ -17,7 +17,7 @@ import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-import { authClient } from "@/lib/auth-client"
+import { authClient } from "@/lib/auth"
 
 interface Inputs {
   email: string
