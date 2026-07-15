@@ -1,12 +1,5 @@
 "use client"
 
-import * as React from "react"
-import { mergeProps } from "@base-ui/react/merge-props"
-import { useRender } from "@base-ui/react/use-render"
-import { cva, type VariantProps } from "class-variance-authority"
-
-import { useIsMobile } from "@abhimanyu/ui/hooks/use-mobile"
-import { cn } from "@abhimanyu/ui/lib/utils"
 import { Button } from "@abhimanyu/ui/components/button"
 import { Input } from "@abhimanyu/ui/components/input"
 import { Separator } from "@abhimanyu/ui/components/separator"
@@ -23,7 +16,13 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@abhimanyu/ui/components/tooltip"
+import { useIsMobile } from "@abhimanyu/ui/hooks/use-mobile"
+import { cn } from "@abhimanyu/ui/lib/utils"
+import { mergeProps } from "@base-ui/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
 import { IconLayoutSidebar } from "@tabler/icons-react"
+import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
