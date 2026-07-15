@@ -8,17 +8,20 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "exports": {
-    "./server": "./server/index.ts"
+    "./server": "./server/index.ts",
+    "./client": "./client/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@abhimanyu/services": "workspace:*",
+    "@abhimanyu/contracts": "workspace:*",
     "@abhimanyu/typescript-config": "workspace:*",
     "@trpc/client": "^11.18.0",
     "@trpc/server": "^11.18.0",
     "better-auth": "^1.6.23",
+    "octokit": "^5.0.5",
     "zod": "^4.4.3"
   },
   "devDependencies": {
