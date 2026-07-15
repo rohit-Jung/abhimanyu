@@ -1,10 +1,11 @@
 import { cn } from "@abhimanyu/ui/lib/utils"
 
 import "@abhimanyu/ui/globals.css"
-import { Geist, Geist_Mono, Roboto, Space_Grotesk } from "next/font/google"
+import { Geist_Mono, Roboto, Space_Grotesk } from "next/font/google"
 
 import { SonnerToaster } from "@/components/sonner-provider"
 import { ThemeProvider } from "@/components/theme-provider"
+import { TrpcClientProvider } from "@/providers/trpcClientProvider"
 
 const spaceGroteskHeading = Space_Grotesk({
   subsets: ["latin"],
@@ -36,10 +37,12 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider>
-          {children}
-          <SonnerToaster />
-        </ThemeProvider>
+        <TrpcClientProvider>
+          <ThemeProvider>
+            {children}
+            <SonnerToaster />
+          </ThemeProvider>
+        </TrpcClientProvider>
       </body>
     </html>
   )
