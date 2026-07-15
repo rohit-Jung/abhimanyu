@@ -1,5 +1,5 @@
 import "dotenv/config"
-import { prisma } from "@abhimanyu/database"
+import { prisma } from "@abhimanyu/database/client"
 import { prismaAdapter } from "@better-auth/prisma-adapter"
 import { betterAuth } from "better-auth"
 

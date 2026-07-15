@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@abhimanyu/database": "workspace:*",
+    "@abhimanyu/contracts": "workspace:*",
     "@abhimanyu/typescript-config": "workspace:*",
     "@better-auth/prisma-adapter": "^1.6.23",
     "bcrypt": "^6.0.0",
