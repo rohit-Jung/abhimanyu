@@ -20,6 +20,13 @@ export const auth = betterAuth({
     maxPasswordLength: 18,
   },
 
+  socialProviders: {
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    },
+  },
+
   baseURL: process.env.BACKEND_URL ?? "http://localhost:4000", // auth backend endpoint?
   basePath: "/api/auth",
 
@@ -36,7 +43,7 @@ export const auth = betterAuth({
       enabled: true,
       maxAge: 7 * 24 * 60 * 60, // 7 days
       strategy: "jwe", // 'jwt' or 'jwe' or 'compact'
-      refreshCache: true, // enable  stateless refresh
+      // refreshCache: true, // enable  stateless refresh
     },
   },
 
