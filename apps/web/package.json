@@ -12,9 +12,16 @@
   },
   "dependencies": {
     "@abhimanyu/services": "workspace:*",
+    "@abhimanyu/trpc": "workspace:*",
     "@abhimanyu/ui": "workspace:*",
     "@tabler/icons-react": "^3.44.0",
+    "@tanstack/react-query": "^5.101.2",
+    "@trpc/client": "^11.18.0",
+    "@trpc/server": "^11.18.0",
+    "@trpc/tanstack-react-query": "^11.18.0",
     "better-auth": "^1.6.23",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "geist": "^1.7.1",
     "lucide-react": "^1.24.0",
     "next": "16.2.0",
@@ -22,7 +29,8 @@
     "react": "^19.2.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.81.0",
-    "sonner": "^2.0.7"
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@abhimanyu/typescript-config": "workspace:*",

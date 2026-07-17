@@ -7,6 +7,13 @@ export async function proxy(request: NextRequest) {
     headers: await headers(),
   })
 
+  if (
+    (request.url == "/signin" || request.url == "/signup") &&
+    session?.user.id
+  ) {
+    return NextResponse.redirect(new URL("/dashboard", request.url))
+  }
+
   if (!session) {
     return NextResponse.redirect(new URL("/signin", request.url))
   }
@@ -15,5 +22,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard"], // Specify the routes the middleware applies to
+  matcher: ["/dashboard", "/signin"], // Specify the routes the middleware applies to
 }
