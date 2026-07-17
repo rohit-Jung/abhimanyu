@@ -6,5 +6,10 @@ export const installationStatusForUserSchema = type({
   installedAt: "Date | null",
 })
 
+export const githubCallbackInput = type({
+  installation_id: "string | null",
+  setup_action: "string | null",
+})
+
 export type InstallationStatusForUser =
   typeof installationStatusForUserSchema.infer
