@@ -14,9 +14,11 @@
   "dependencies": {
     "@abhimanyu/database": "workspace:*",
     "@abhimanyu/services": "workspace:*",
+    "@abhimanyu/contracts": "workspace:*",
     "@abhimanyu/trpc": "workspace:*",
     "@abhimanyu/typescript-config": "workspace:*",
     "@trpc/server": "^11.18.0",
+    "arktype": "^2.2.3",
     "better-auth": "^1.6.23",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",

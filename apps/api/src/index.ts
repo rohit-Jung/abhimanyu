@@ -27,7 +27,7 @@ app.use(express.json())
 
 // trpc for other routes
 app.use(
-  "/trpc",
+  "/api/trpc",
   createExpressMiddleware({
     router: appRouter,
     createContext,

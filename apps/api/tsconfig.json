@@ -1,6 +1,6 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
-  "extends": "@abhimanyu/typescript-config/base.json",
+  "extends": "@abhimanyu/typescript-config/node.json",
   "compilerOptions": {
     // File Layout
     "rootDir": "./src",
