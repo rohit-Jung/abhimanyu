@@ -1,9 +1,9 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@abhimanyu/typescript-config/node.json",
   "compilerOptions": {
     // File Layout
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist",
   }
 }

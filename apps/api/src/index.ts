@@ -6,6 +6,8 @@ import { toNodeHandler } from "better-auth/node"
 import cors from "cors"
 import express from "express"
 
+import { handleGithubAppCallback } from "./handlers/github.handler"
+
 const app = express()
 
 // CORS
@@ -21,11 +23,9 @@ app.use(
 
 // better auth for authentication
 app.all("/api/auth/*splat", toNodeHandler(auth))
-
-// after better auth
 app.use(express.json())
 
-// trpc for other routes
+app.route("/api/github/callback").get(handleGithubAppCallback)
 app.use(
   "/api/trpc",
   createExpressMiddleware({
