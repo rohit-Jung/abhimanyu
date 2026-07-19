@@ -3,6 +3,7 @@
   "name": "@abhimanyu/trpc",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,12 +16,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@abhimanyu/services": "workspace:*",
     "@abhimanyu/contracts": "workspace:*",
+    "@abhimanyu/services": "workspace:*",
     "@abhimanyu/typescript-config": "workspace:*",
     "@trpc/client": "^11.18.0",
     "@trpc/server": "^11.18.0",
     "better-auth": "^1.6.23",
+    "express": "^5.2.1",
     "octokit": "^5.0.5",
     "zod": "^4.4.3"
   },
