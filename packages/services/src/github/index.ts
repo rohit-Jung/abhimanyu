@@ -1,18 +1,26 @@
 import type { InstallationStatusForUser } from "@abhimanyu/contracts"
-import { prisma } from "@abhimanyu/database/client"
+import { GithubInstallation, prisma } from "@abhimanyu/database/client"
 import { App } from "octokit"
 
 class GithubService {
-  public githubApp: null | App = null
+  private githubApp: null | App = null
 
   constructor() {
-    this.githubApp = this.getGithubApp()
+    this.githubApp = this.createGithubApp()
   }
 
-  private getGithubApp() {
-    let app = new App({
+  private createGithubApp(): App {
+    const privateKey = Buffer.from(
+      process.env.GITHUB_APP_PRIVATE_KEY!,
+      "base64"
+    ).toString("utf-8")
+
+    console.log("github private key", privateKey)
+    console.log("github app id", process.env.GITHUB_APP_ID)
+
+    const app = new App({
       appId: process.env.GITHUB_APP_ID!,
-      privateKey: process.env.GITHUB_APP_PRIVATE_KEY!.replace(/\\n/g, "\n"),
+      privateKey,
       webhooks: {
         secret: process.env.GITHUB_WEBHOOK_SECRET!,
       },
@@ -21,24 +29,11 @@ class GithubService {
     return app
   }
 
-  public async getGithubInstallationByInstallationId({
-    installationId,
-  }: {
-    installationId: number
-  }) {
-    return prisma.githubInstallation.findFirst({
-      where: {
-        installationId,
-      },
-    })
-  }
-
-  public async getGithubInstallationByUserId({ userId }: { userId: string }) {
-    return prisma.githubInstallation.findFirst({
-      where: {
-        userId,
-      },
-    })
+  private static getAccountLoginInfo(
+    account: { login?: string; slug?: string } | null | undefined
+  ): string | null {
+    if (!account) return null
+    return account.login ?? account.slug ?? null
   }
 
   public async createGithubInstallation({
@@ -46,15 +41,46 @@ class GithubService {
     installationId,
   }: {
     userId: string
-    installationId: string
-  }) {}
+    installationId: number
+  }): Promise<GithubInstallation> {
+    const app = this.githubApp!
+    console.log(installationId)
+
+    const { data } = await app.octokit.request(
+      "GET /app/installations/{installation_id}",
+      { installation_id: installationId }
+    )
+
+    const accountLogin = GithubService.getAccountLoginInfo(data.account)
+    const accountType = data.target_type ?? null
+    const installation = await prisma.githubInstallation.upsert({
+      where: { userId },
+      create: {
+        userId,
+        installationId,
+        accountLogin,
+        accountType,
+      },
+      update: {
+        installationId,
+        accountLogin,
+        accountType,
+      },
+    })
+
+    return installation
+  }
 
   public async getInstallationStatusForUser({
     userId,
   }: {
     userId: string
   }): Promise<InstallationStatusForUser> {
-    const installation = await this.getGithubInstallationByUserId({ userId })
+    const installation = await prisma.githubInstallation.findFirst({
+      where: {
+        userId,
+      },
+    })
 
     if (!installation) {
       return {

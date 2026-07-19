@@ -3,22 +3,17 @@
   "name": "@abhimanyu/services",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "exports": {
-    ".": "./src/index.ts"
-  },
+  "type": "module",
   "dependencies": {
-    "@abhimanyu/database": "workspace:*",
     "@abhimanyu/contracts": "workspace:*",
+    "@abhimanyu/database": "workspace:*",
     "@abhimanyu/typescript-config": "workspace:*",
     "@better-auth/prisma-adapter": "^1.6.23",
     "bcrypt": "^6.0.0",
     "better-auth": "^1.6.23",
     "dotenv": "^17.4.2",
-    "jsonwebtoken": "^9.0.3"
+    "jsonwebtoken": "^9.0.3",
+    "octokit": "^5.0.5"
   },
   "keywords": [],
   "author": "",
