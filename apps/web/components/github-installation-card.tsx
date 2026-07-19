@@ -9,14 +9,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@abhimanyu/ui/components/card"
-import { GitCommitIcon, Plug2 } from "lucide-react"
+import { IconBrandGithub } from "@tabler/icons-react"
+import { ArrowUpRightIcon, Plug2 } from "lucide-react"
 
 import {
   statusBadge,
   statusButtonClass,
 } from "@/features/dashboard/lib/status-style"
 import { useGetGithubApp } from "@/hooks/api/github/installation"
-import { GithubInstallationStatus } from "@/lib/github"
+import {
+  getGithubInstallationUrl,
+  GithubInstallationStatus,
+} from "@/lib/github"
 import { cn } from "@/lib/utils"
 
 function ConnectionDetails({
@@ -45,8 +49,9 @@ function ConnectionDetails({
   )
 }
 
-export default function GithubInstallationCard() {
+export default function GithubInstallationCard({ userId }: { userId: string }) {
   const { appStatus, isLoading, error } = useGetGithubApp()
+  const installationUrl = getGithubInstallationUrl(userId)
 
   let connected = false
   let accountLogin = null
@@ -57,7 +62,7 @@ export default function GithubInstallationCard() {
   }
 
   let cardBorderClass = "border-border"
-  let iconWrapperClass = "border-border bg-muted"
+  let iconWrapperClass = "bg-transparent"
   let statusTone: "success" | "neutral" = "neutral"
   let statusLabel = "Not connected"
 
@@ -71,17 +76,17 @@ export default function GithubInstallationCard() {
 
   return (
     <div className="flex flex-1 flex-col gap-6 p-6">
-      <Card className={cn("max-w-2xl transition-colors", cardBorderClass)}>
+      <Card className={cn("max-w-3xl transition-colors", cardBorderClass)}>
         <CardHeader>
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
               <span
                 className={cn(
-                  "flex size-10 items-center justify-center rounded-none border",
+                  "transparent flex size-10 items-center justify-center rounded-none border-0",
                   iconWrapperClass
                 )}
               >
-                <GitCommitIcon className="size-5" />
+                <IconBrandGithub className="size-10" />
               </span>
               <div>
                 <CardTitle>GitHub App</CardTitle>
@@ -101,16 +106,28 @@ export default function GithubInstallationCard() {
           />
         </CardContent>
         <CardFooter className="flex flex-wrap gap-2">
-          <form action={""}>
+          {connected ? (
+            <form action={""}>
+              <Button
+                type="submit"
+                variant="outline"
+                className={statusButtonClass.danger}
+              >
+                <Plug2 />
+                Disconnect GitHub App
+              </Button>
+            </form>
+          ) : (
             <Button
-              type="submit"
-              variant="outline"
-              className={statusButtonClass.danger}
+              nativeButton={false}
+              render={<a href={installationUrl} />}
+              className={statusButtonClass.success}
             >
-              <Plug2 />
-              Disconnect GitHub App
+              <IconBrandGithub />
+              Install GitHub App
+              <ArrowUpRightIcon className="size-3 opacity-80" />
             </Button>
-          </form>
+          )}
         </CardFooter>
       </Card>
     </div>

@@ -4,7 +4,7 @@ import { Button } from "@abhimanyu/ui/components/button"
 import { redirect } from "next/navigation"
 import { toast } from "sonner"
 
-import { authClient } from "@/lib/auth-client"
+import { authClient } from "@/lib/auth"
 
 export default function DashboardPage() {
   function signOut() {
