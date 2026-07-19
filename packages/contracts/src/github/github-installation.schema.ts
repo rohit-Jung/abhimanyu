@@ -7,9 +7,11 @@ export const installationStatusForUserSchema = type({
 })
 
 export const githubCallbackInput = type({
-  installation_id: "string | null",
-  setup_action: "string | null",
+  installation_id: "string",
+  setup_action: "string",
+  state: "string", // this we will use as user id
 })
 
 export type InstallationStatusForUser =
   typeof installationStatusForUserSchema.infer
+export type GithubCallbackInput = typeof githubCallbackInput.infer
