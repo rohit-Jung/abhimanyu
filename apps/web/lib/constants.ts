@@ -1,8 +1,4 @@
-import {
-  IconBrandGithub,
-  IconBrandGithubCopilot,
-  TablerIcon,
-} from "@tabler/icons-react"
+import { IconBrandGithub, TablerIcon } from "@tabler/icons-react"
 import {
   FolderGit2,
   GitPullRequestIcon,
@@ -10,6 +6,7 @@ import {
   LucideIcon,
   Settings2,
 } from "lucide-react"
+import { Metadata } from "next"
 
 export enum DASHBOARD_ROUTES {
   dashboard = "/dashboard",
@@ -17,6 +14,11 @@ export enum DASHBOARD_ROUTES {
   pullRequest = "/dashboard/pull-requests",
   github = "/dashboard/github",
   settings = "/dashboard/settings",
+}
+
+export enum AUTH_ROUTES {
+  signin = "/signin",
+  signup = "/signup",
 }
 
 interface NavItem {
@@ -53,4 +55,43 @@ export const SIDEBAR_NAV_ITEMS: NavItem[] = [
   },
 ]
 
-export const GITHUB_APP_URL = ""
+export const GITHUB_APP_URL = "https://github.com/apps/abhimanyu-reviewer/"
+
+const authors = {
+  name: "rokshh",
+  url: "rohitjungkathet.com.np",
+}
+
+export const PageMetadata: Record<DASHBOARD_ROUTES, Metadata> = {
+  [DASHBOARD_ROUTES.dashboard]: {
+    title: "Dashboard",
+    description: "",
+    authors,
+    applicationName: "abhimanyu",
+  },
+  [DASHBOARD_ROUTES.repos]: {
+    title: "Repos",
+    description: "Repositories information",
+    authors,
+    applicationName: "abhimanyu",
+  },
+  [DASHBOARD_ROUTES.pullRequest]: {
+    title: "Pull Requests",
+    description: "Pull requests",
+    authors,
+    applicationName: "abhimanyu",
+  },
+  [DASHBOARD_ROUTES.github]: {
+    title: "Github App",
+    description:
+      "Install or disconnect the reviewer app on your GitHub account.",
+    authors,
+    applicationName: "abhimanyu",
+  },
+  [DASHBOARD_ROUTES.settings]: {
+    title: "Settings",
+    description: "Settings  for the app",
+    authors,
+    applicationName: "abhimanyu",
+  },
+}

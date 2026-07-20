@@ -5,19 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { createTRPCClient, httpBatchLink } from "@trpc/client"
 import { ReactNode, useState } from "react"
 
-import { TRPCProvider } from "@/lib/trpc"
-
-function makeQueryClient() {
-  return new QueryClient({
-    defaultOptions: {
-      queries: {
-        // With SSR, we usually want to set some default staleTime
-        // above 0 to avoid refetching immediately on the client
-        staleTime: 60 * 1000,
-      },
-    },
-  })
-}
+import { TRPCProvider } from "@/lib/trpc/client"
+import { makeQueryClient } from "@/lib/trpc/query-client"
 
 let browserQueryClient: QueryClient | undefined = undefined
 
@@ -42,7 +31,7 @@ export function TrpcClientProvider({ children }: { children: ReactNode }) {
     createTRPCClient<AppRouter>({
       links: [
         httpBatchLink({
-          url: `${process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:4000"}/trpc/`,
+          url: "/api/trpc/", // routed to the API server
           fetch(url, options) {
             return fetch(url, {
               ...options,

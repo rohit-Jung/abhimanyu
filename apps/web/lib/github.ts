@@ -6,10 +6,11 @@ export type GithubInstallationStatus = {
   installedAt: string | null
 }
 
-const getGithubInstallationUrl = (userId: string) => {
-  const url = new URL(GITHUB_APP_URL)
+const getGithubInstallationUrl = (userId: string): string => {
+  const url = new URL(`${GITHUB_APP_URL}/installations/new`)
+  // ok we need this to save the installation into db
   url.searchParams.set("state", userId)
-  return url
+  return url.toString()
 }
 
 export { getGithubInstallationUrl }
