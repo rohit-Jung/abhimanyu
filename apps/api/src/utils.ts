@@ -14,7 +14,7 @@ export const getFrontendRedirectUrl = ({
 }): string => {
   if (installationId) {
     const callback = encodeURIComponent(
-      backendUrl(`/api/trpc/github.callback?installation_id=${installationId}`)
+      backendUrl(`/api/trpc/github/callback?installation_id=${installationId}`)
     )
 
     return frontendUrl("/signin/callbackUrl=" + callback)

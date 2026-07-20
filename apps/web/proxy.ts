@@ -7,8 +7,6 @@ export async function proxy(request: NextRequest) {
     headers: await headers(),
   })
 
-  console.log("user session", session?.user.id, request.url)
-
   const { pathname } = request.nextUrl
 
   if ((pathname === "/signin" || pathname === "/signup") && session?.user.id) {
