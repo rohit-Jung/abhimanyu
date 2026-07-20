@@ -1,6 +1,6 @@
 import type { InstallationStatusForUser } from "@abhimanyu/contracts"
 import { GithubInstallation, prisma } from "@abhimanyu/database/client"
-import { App } from "octokit"
+import { App, Octokit } from "octokit"
 
 class GithubService {
   private githubApp: null | App = null
@@ -15,15 +15,19 @@ class GithubService {
       "base64"
     ).toString("utf-8")
 
-    console.log("github private key", privateKey)
-    console.log("github app id", process.env.GITHUB_APP_ID)
-
     const app = new App({
       appId: process.env.GITHUB_APP_ID!,
       privateKey,
       webhooks: {
         secret: process.env.GITHUB_WEBHOOK_SECRET!,
       },
+      Octokit: Octokit.defaults({
+        request: {
+          headers: {
+            "X-GitHub-Api-Version": "2022-11-28",
+          },
+        },
+      }),
     })
 
     return app
@@ -44,12 +48,9 @@ class GithubService {
     installationId: number
   }): Promise<GithubInstallation> {
     const app = this.githubApp!
-    console.log(installationId)
-
-    const { data } = await app.octokit.request(
-      "GET /app/installations/{installation_id}",
-      { installation_id: installationId }
-    )
+    const { data } = await app.octokit.rest.apps.getInstallation({
+      installation_id: installationId,
+    })
 
     const accountLogin = GithubService.getAccountLoginInfo(data.account)
     const accountType = data.target_type ?? null
@@ -69,6 +70,44 @@ class GithubService {
     })
 
     return installation
+  }
+
+  public async deleteInstallationByUserId({ userId }: { userId: string }) {
+    const installation = await prisma.githubInstallation.findUnique({
+      where: {
+        userId,
+      },
+    })
+
+    if (!installation) return
+
+    const app = this.githubApp!
+    try {
+      await app.octokit.rest.apps.deleteInstallation({
+        installation_id: installation.installationId,
+      })
+    } catch (error) {
+      const status =
+        error instanceof Error
+          ? (error as { status?: number }).status
+          : undefined
+
+      console.error(
+        "[server error] error caught while uninstalling from octokit",
+        { status, error }
+      )
+
+      // if already uninstalled on github, still clean up the local record.
+      if (status !== 404) return
+    }
+
+    const deleted = await prisma.githubInstallation.delete({
+      where: {
+        userId,
+      },
+    })
+
+    return deleted
   }
 
   public async getInstallationStatusForUser({
