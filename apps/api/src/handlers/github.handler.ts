@@ -10,7 +10,6 @@ import { frontendUrl, getFrontendRedirectUrl } from "../utils"
 
 export async function handleGithubAppCallback(req: Request, res: Response) {
   const data = validateData<GithubCallbackInput>(githubCallbackInput, req.query)
-  console.log("got em", data)
 
   // redirect for signin with callback
   if (!data.success) {
@@ -27,5 +26,5 @@ export async function handleGithubAppCallback(req: Request, res: Response) {
     userId: data.data.state,
   })
 
-  return res.redirect(frontendUrl("/dashboard"))
+  return res.redirect(frontendUrl("/dashboard/github"))
 }
