@@ -46,7 +46,6 @@ export function SignupForm({
     }
 
     toast(`Successfully signed up`)
-    console.log(data.token)
   }
 
   // const signUpWithGithub = async () => {

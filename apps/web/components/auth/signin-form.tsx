@@ -19,7 +19,7 @@ import { toast } from "sonner"
 
 import { authClient } from "@/lib/auth"
 
-import { GithubSignInButton } from "./github-sign-in"
+import { GithubSignInButton } from "../../github/github-sign-in"
 
 interface Inputs {
   email: string

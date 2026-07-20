@@ -3,11 +3,9 @@ import { Button } from "@abhimanyu/ui/components/button"
 import { authClient } from "@/lib/auth"
 
 export function GithubSignInButton({ callbackUrl }: { callbackUrl: string }) {
-  console.log("callbackUrl", callbackUrl)
   return (
     <Button
       onClick={() => {
-        console.log("clicked")
         authClient.signIn.social({
           provider: "github",
           callbackURL: callbackUrl,

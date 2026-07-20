@@ -1,5 +1,3 @@
-"use client"
-
 import { Button } from "@abhimanyu/ui/components/button"
 import {
   Card,
@@ -12,15 +10,16 @@ import {
 import { IconBrandGithub } from "@tabler/icons-react"
 import { ArrowUpRightIcon, Plug2 } from "lucide-react"
 
+import { disconnectAppAction } from "@/features/dashboard/actions/github"
 import {
   statusBadge,
   statusButtonClass,
 } from "@/features/dashboard/lib/status-style"
-import { useGetGithubApp } from "@/hooks/api/github/installation"
 import {
   getGithubInstallationUrl,
   GithubInstallationStatus,
 } from "@/lib/github"
+import { createServerCaller } from "@/lib/trpc/server"
 import { cn } from "@/lib/utils"
 
 function ConnectionDetails({
@@ -49,17 +48,16 @@ function ConnectionDetails({
   )
 }
 
-export default function GithubInstallationCard({ userId }: { userId: string }) {
-  const { appStatus, isLoading, error } = useGetGithubApp()
+export default async function GithubInstallationCard({
+  userId,
+}: {
+  userId: string
+}) {
+  const api = await createServerCaller()
+  const { connected, accountLogin } =
+    await api.github.getInstallationStatusForUser()
+
   const installationUrl = getGithubInstallationUrl(userId)
-
-  let connected = false
-  let accountLogin = null
-
-  if (appStatus && !isLoading && !error) {
-    connected = appStatus.connected
-    accountLogin = appStatus.accountLogin
-  }
 
   let cardBorderClass = "border-border"
   let iconWrapperClass = "bg-transparent"
@@ -91,7 +89,7 @@ export default function GithubInstallationCard({ userId }: { userId: string }) {
               <div>
                 <CardTitle>GitHub App</CardTitle>
                 <CardDescription>
-                  Install the Chai reviewer app on your GitHub account or
+                  Install the reviewer app on your GitHub account or
                   organization to access public and private repositories.
                 </CardDescription>
               </div>
@@ -107,7 +105,7 @@ export default function GithubInstallationCard({ userId }: { userId: string }) {
         </CardContent>
         <CardFooter className="flex flex-wrap gap-2">
           {connected ? (
-            <form action={""}>
+            <form action={disconnectAppAction}>
               <Button
                 type="submit"
                 variant="outline"
