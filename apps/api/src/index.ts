@@ -1,6 +1,6 @@
 import "dotenv/config"
 import { auth } from "@abhimanyu/services"
-import { appRouter, createContext } from "@abhimanyu/trpc/server"
+import { appRouter, createExpressContext } from "@abhimanyu/trpc/server"
 import { createExpressMiddleware } from "@trpc/server/adapters/express"
 import { toNodeHandler } from "better-auth/node"
 import cors from "cors"
@@ -30,7 +30,7 @@ app.use(
   "/api/trpc",
   createExpressMiddleware({
     router: appRouter,
-    createContext,
+    createContext: createExpressContext,
   })
 )
 
