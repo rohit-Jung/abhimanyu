@@ -3,7 +3,7 @@ import { GithubInstallation, prisma } from "@abhimanyu/database/client"
 import { App, Octokit } from "octokit"
 
 class GithubInstallationService {
-  private githubApp: null | App = null
+  public githubApp: null | App = null
 
   constructor() {
     this.githubApp = this.createGithubApp()
@@ -38,6 +38,24 @@ class GithubInstallationService {
   ): string | null {
     if (!account) return null
     return account.login ?? account.slug ?? null
+  }
+
+  public async getUserIdByInstallationId({
+    installationId,
+  }: {
+    installationId: number
+  }): Promise<string | null> {
+    const installation = await prisma.githubInstallation.findFirst({
+      where: {
+        installationId,
+      },
+    })
+
+    if (!installation) {
+      return null
+    }
+
+    return installation.userId
   }
 
   public async createGithubInstallation({
