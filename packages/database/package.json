@@ -10,7 +10,8 @@
     "db:studio": "prisma studio"
   },
   "exports": {
-    "./client": "./src/client.ts"
+    "./client": "./src/client.ts",
+    "./pinecone": "./src/pinecone/client.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
   },
   "dependencies": {
     "@abhimanyu/typescript-config": "workspace:*",
+    "@pinecone-database/pinecone": "^8.1.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "pg": "^8.22.0"

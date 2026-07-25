@@ -17,6 +17,7 @@
     "@abhimanyu/services": "workspace:*",
     "@abhimanyu/contracts": "workspace:*",
     "@abhimanyu/trpc": "workspace:*",
+    "@abhimanyu/inngest": "workspace:*",
     "@abhimanyu/typescript-config": "workspace:*",
     "@trpc/server": "^11.18.0",
     "arktype": "^2.2.3",
