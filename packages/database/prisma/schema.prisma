@@ -53,7 +53,7 @@ enum PullRequestStatus {
 // installation for pull request
 model PullRequest {
   id             String            @id @default(cuid())
-  installationId String
+  installationId Int
   repoFullName   String
   prNumber       Int
   title          String

@@ -1,6 +1,6 @@
 import { eventType, Inngest, staticSchema } from "inngest"
 
-export const prReceived = eventType("github/pr.received", {
+export const prReceivedEvent = eventType("github/pr.received", {
   schema: staticSchema<{ pullRequestId: string }>(),
 })
 
