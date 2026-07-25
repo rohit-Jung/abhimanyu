@@ -7,7 +7,10 @@ import { toNodeHandler } from "better-auth/node"
 import cors from "cors"
 import express, { Application } from "express"
 
-import { handleGithubAppCallback } from "./handlers/github.handler"
+import {
+  handleGithubAppCallback,
+  handleGithubWebhook,
+} from "./handlers/github.handler"
 
 const app: Application = express()
 
@@ -21,11 +24,16 @@ app.use(
   })
 )
 
+app
+  .route("/api/github/webhook")
+  .post(express.raw({ type: "application/json" }), handleGithubWebhook)
+
 app.all("/api/auth/*splat", toNodeHandler(auth))
+
 app.use(express.json())
 app.use("/api/inngest", inngest)
-
 app.route("/api/github/callback").get(handleGithubAppCallback)
+
 app.use(
   "/api/trpc",
   createExpressMiddleware({
