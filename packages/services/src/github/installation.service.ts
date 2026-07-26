@@ -1,4 +1,7 @@
-import type { InstallationStatusForUser } from "@abhimanyu/contracts"
+import {
+  installationStatusForUserSchema,
+  type InstallationStatusForUser,
+} from "@abhimanyu/contracts"
 import { GithubInstallation, prisma } from "@abhimanyu/database/client"
 import { App, Octokit } from "octokit"
 
@@ -154,6 +157,24 @@ class GithubInstallationService {
       accountLogin: installation.accountLogin,
       installedAt: installation.createdAt,
     }
+  }
+
+  public async getInstallationIdByUserId({
+    userId,
+  }: {
+    userId: string
+  }): Promise<number | null> {
+    const instsallation = await prisma.githubInstallation.findFirst({
+      where: {
+        userId,
+      },
+    })
+
+    if (!instsallation) {
+      return null
+    }
+
+    return instsallation.installationId;
   }
 }
 
