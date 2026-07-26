@@ -15,5 +15,6 @@ export function validateData<T>(
 
 export * from "./github/github-installation.schema"
 export * from "./github/github-pullrequest.schema"
+export * from "./github/github-reposync.schema"
 export * from "./health/health.schema"
 export * from "./rag-pipeline"
