@@ -3,6 +3,7 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
@@ -12,11 +13,15 @@ import {
 import { usePathname, useRouter } from "next/navigation"
 import * as React from "react"
 
+import { authClient } from "@/lib/auth"
 import { SIDEBAR_NAV_ITEMS } from "@/lib/constants"
+
+import { NavUser } from "./user-nav"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const router = useRouter()
   const pathname = usePathname()
+  const data = authClient.useSession()
 
   return (
     <Sidebar collapsible="icon" className="" {...props}>
@@ -39,6 +44,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="pb-5">
+        <NavUser
+          user={{
+            name: data.data?.user.name || "",
+            email: data.data?.user.email || "",
+            avatar: data.data?.user.image || "",
+          }}
+        />
+      </SidebarFooter>
     </Sidebar>
   )
 }
