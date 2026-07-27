@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3001",
+    "dev": "next dev --port 3001 --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "oxlint --max-warnings 0",
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@abhimanyu/services": "workspace:*",
+    "@abhimanyu/contracts": "workspace:*",
     "@abhimanyu/trpc": "workspace:*",
     "@abhimanyu/ui": "workspace:*",
     "@tabler/icons-react": "^3.44.0",
@@ -22,6 +23,7 @@
     "better-auth": "^1.6.23",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.4.0",
     "geist": "^1.7.1",
     "lucide-react": "^1.24.0",
     "next": "16.2.0",
