@@ -9,6 +9,10 @@ import { inngestClient, prReceivedEvent } from "../client"
 const reviewPullRequest = inngestClient.createFunction(
   {
     id: "review-pull-request",
+    timeouts: {
+      start: "20m", // max time for each run
+      finish: "2h",
+    },
     triggers: {
       event: prReceivedEvent,
     },
