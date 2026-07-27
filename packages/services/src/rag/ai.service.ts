@@ -2,6 +2,7 @@ import { ReviewInput } from "@abhimanyu/contracts"
 import { generateText } from "ai"
 
 import { system_prompt } from "./prompts"
+import { openrouter } from "./providers"
 
 class AIService {
   private readonly SYSTEM_PROMPT = system_prompt
@@ -26,7 +27,7 @@ class AIService {
 
   public async generateReview(input: ReviewInput): Promise<string> {
     const { text } = await generateText({
-      model: this.REVIEW_MODEL,
+      model: openrouter(this.REVIEW_MODEL),
       system: this.SYSTEM_PROMPT,
       prompt: this.getPrompt(input),
     })
