@@ -52,7 +52,7 @@ class RepoSyncService {
 
     const statusmap: Record<string, RepoSyncStatus> = {}
     repoSyncStatus.map((r) => {
-      statusmap[r.repoFullName] = r.status 
+      statusmap[r.repoFullName] = r.status
     })
 
     const repos = data.repositories.map((repo) => {

@@ -1,7 +1,4 @@
-import {
-  installationStatusForUserSchema,
-  type InstallationStatusForUser,
-} from "@abhimanyu/contracts"
+import { type InstallationStatusForUser } from "@abhimanyu/contracts"
 import { GithubInstallation, prisma } from "@abhimanyu/database/client"
 import { App, Octokit } from "octokit"
 
@@ -174,7 +171,7 @@ class GithubInstallationService {
       return null
     }
 
-    return instsallation.installationId;
+    return instsallation.installationId
   }
 }
 
