@@ -1,5 +1,5 @@
-import { GetInfiniteRepo } from "@abhimanyu/contracts"
-import { prisma } from "@abhimanyu/database/client"
+import { GetInfiniteRepo, GitRepo } from "@abhimanyu/contracts"
+import { prisma, RepoSyncStatus } from "@abhimanyu/database/client"
 
 import { githubInstallationService } from "../github/installation.service"
 
@@ -50,6 +50,11 @@ class RepoSyncService {
       select: { repoFullName: true, status: true },
     })
 
+    const statusmap: Record<string, RepoSyncStatus> = {}
+    repoSyncStatus.map((r) => {
+      statusmap[r.repoFullName] = r.status 
+    })
+
     const repos = data.repositories.map((repo) => {
       return {
         id: String(repo.id),
@@ -60,11 +65,8 @@ class RepoSyncService {
         updatedAt: repo.updated_at ?? new Date().toISOString(),
         language: repo.language ?? null,
         stars: repo.stargazers_count ?? 0,
-        syncStatus:
-          repoSyncStatus.find((r) => {
-            if (r.repoFullName === repo.full_name) return true
-          }) ?? null,
-      }
+        syncStatus: statusmap[repo.full_name] ?? null,
+      } satisfies GitRepo
     })
 
     return {
