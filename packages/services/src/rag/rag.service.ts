@@ -1,3 +1,5 @@
+import { constants } from "buffer"
+
 import {
   CodeChunk,
   RepoFile,
@@ -30,6 +32,7 @@ class RagService {
   private readonly maxChunkLines = 80
   private readonly topResultCount = 10
   private readonly pineconeIndex = getPineconeIndex()
+  private readonly upsertBatchSize = 90
 
   private buildChunkId(params: GetChunkId): string {
     if (params.type == "pr") {
@@ -110,28 +113,18 @@ class RagService {
   }
 
   public async saveChunksToPinecone({
-    repoFullName,
-    prNumber,
+    namespace,
     chunks,
   }: {
-    repoFullName: string
-    prNumber: number
+    namespace: string
     chunks: CodeChunk[]
   }) {
-    const namespace = this.buildPrNameSpace({
-      repoFullName,
-      prNumber,
-    })
-
-    const records = chunks.map((chunk) => ({
-      id: chunk.id,
-      text: chunk.text,
-      filePath: chunk.filePath,
-    }))
-
-    await this.pineconeIndex.namespace(namespace).upsertRecords({
-      records,
-    })
+    for (let i = 0; i < chunks.length; i += this.upsertBatchSize) {
+      const batch = chunks.slice(i, i + this.upsertBatchSize)
+      await this.pineconeIndex
+        .namespace(namespace)
+        .upsertRecords({ records: batch })
+    }
   }
 
   public async searchPrContext(params: GetPrContextParams): Promise<string[]> {

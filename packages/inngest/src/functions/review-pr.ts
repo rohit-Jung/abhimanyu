@@ -66,10 +66,15 @@ const reviewPullRequest = inngestClient.createFunction(
       }
     }
 
+    const namespace = ragService.getNamespace({
+      type: "pr",
+      repoFullName,
+      prNumber,
+    })
+
     await step.run("save-chunks-to-db", async () => {
       await ragService.saveChunksToPinecone({
-        prNumber,
-        repoFullName,
+        namespace,
         chunks,
       })
     })
