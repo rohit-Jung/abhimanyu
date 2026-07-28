@@ -26,7 +26,7 @@ export const repoSyncRequest = inngestClient.createFunction(
       })
     })
 
-    const chunkedFiles = step.run("chunk-and-store", async () => {
+    const chunkedFiles = await step.run("chunk-and-store", async () => {
       const files = await repoSyncService.getRepoFiles({
         repoFullName: syncedRepo.repoFullName,
         installationId: syncedRepo.installationId,
@@ -49,11 +49,29 @@ export const repoSyncRequest = inngestClient.createFunction(
 
     // if we have old vectors delete em
     if (syncedRepo.syncedAt) {
-      step.run("delete-old-vectors", async () => {
+      await step.run("delete-old-vectors", async () => {
         await ragService.deleteNamespace(namespace)
       })
     }
 
-    step.run("save-vectors-to-db", async () => {})
+    await step.run("save-chunks-to-db", async () => {
+      await ragService.saveChunksToPinecone({
+        namespace,
+        chunks: chunkedFiles,
+      })
+    })
+
+    await step.run("mark-as-synced", async () => {
+      await repoSyncService.updateSyncStatus({
+        status: "Synced",
+        repoSyncId: syncedRepo.id,
+      })
+    })
+
+    return {
+      repoSyncId: syncedRepo.id,
+      status: "synced",
+      chunkCount: chunkedFiles.length,
+    }
   }
 )
