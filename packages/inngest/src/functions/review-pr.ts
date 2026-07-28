@@ -43,7 +43,8 @@ const reviewPullRequest = inngestClient.createFunction(
         prNumber,
       })
 
-      return ragService.chunkPrFiles({
+      return ragService.chunkFiles({
+        type: "pr",
         prNumber,
         files,
       })

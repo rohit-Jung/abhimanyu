@@ -1,5 +1,6 @@
 import {
   CodeChunk,
+  RepoFile,
   ReviewInput,
   searchRecordHitsFieldSchema,
   validateData,
@@ -13,6 +14,14 @@ type GetNamespace =
   | { type: "repo"; repoFullName: string }
   | { type: "pr"; repoFullName: string; prNumber: number }
 
+type GetChunkId =
+  | { type: "repo"; path: string; part: number }
+  | { type: "pr"; path: string; part: number; prNumber: number }
+
+type ChunkFiles =
+  | { type: "repo"; repoFullName: string; files: RepoFile[] }
+  | { type: "pr"; files: PrFile[]; prNumber: number }
+
 type GetPrContextParams = GetNamespace & {
   query: string
 }
@@ -22,16 +31,14 @@ class RagService {
   private readonly topResultCount = 10
   private readonly pineconeIndex = getPineconeIndex()
 
-  private buildChunkId({
-    prNumber,
-    path,
-    part,
-  }: {
-    prNumber: number
-    path: string
-    part: number
-  }): string {
-    return `pr-${prNumber}-${path}-part-${part}`
+  private buildChunkId(params: GetChunkId): string {
+    if (params.type == "pr") {
+      const { prNumber, path, part } = params
+      return `pr-${prNumber}-${path}-part-${part}`
+    }
+
+    const { path, part } = params
+    return `repo--${path}--part-${part}`
   }
 
   private buildPrNameSpace({
@@ -48,7 +55,7 @@ class RagService {
     return `${repoFullName.replace("/", "-")}--codebase`
   }
 
-  private getNamespace(params: GetNamespace) {
+  public getNamespace(params: GetNamespace) {
     if (params.type === "repo") {
       return this.buildRepoNameSpace({
         repoFullName: params.repoFullName,
@@ -61,30 +68,34 @@ class RagService {
     })
   }
 
-  public chunkPrFiles({
-    prNumber,
-    files,
-  }: {
-    prNumber: number
-    files: PrFile[]
-  }): CodeChunk[] {
+  public chunkFiles(params: ChunkFiles) {
     const chunks: CodeChunk[] = []
 
-    for (const file of files) {
-      const lines = file.patch.split("\n")
+    for (const file of params.files) {
+      const text = "content" in file ? file.content : file.patch
+      const lines = text.split("\n")
 
       // slide a fixed-size window across the diff; large files produce many chunks
       for (let start = 0; start < lines.length; start += this.maxChunkLines) {
         const part = start / this.maxChunkLines
         const text = lines.slice(start, start + this.maxChunkLines).join("\n")
 
-        chunks.push({
-          id: this.buildChunkId({
-            prNumber,
-            path: file.filePath,
-            part,
-          }),
+        const id =
+          params.type === "pr"
+            ? this.buildChunkId({
+                type: "pr",
+                path: file.filePath,
+                part,
+                prNumber: params.prNumber,
+              })
+            : this.buildChunkId({
+                type: "repo",
+                path: file.filePath,
+                part,
+              })
 
+        chunks.push({
+          id,
           filePath: file.filePath,
           text,
         })
@@ -92,6 +103,10 @@ class RagService {
     }
 
     return chunks
+  }
+
+  public async deleteNamespace(namespace: string) {
+    this.pineconeIndex.deleteNamespace(namespace)
   }
 
   public async saveChunksToPinecone({
