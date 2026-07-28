@@ -36,5 +36,3 @@ export const ignoredDirList = [
 export const repoPerPage = 10 as const
 export const maxFileSizeBytes = 100_000 as const
 export const maxFiles = 200 as const
-export const maxChunkLines = 80 as const
-export const upsertBatchSize = 90 as const
