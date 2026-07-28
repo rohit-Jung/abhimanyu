@@ -1,17 +1,136 @@
-import { GetInfiniteRepo, GitRepo } from "@abhimanyu/contracts"
+import {
+  GetInfiniteRepo,
+  GitRepo,
+  RepoFile,
+  SyncRepoDetails,
+  TreeEntry,
+} from "@abhimanyu/contracts"
 import { prisma, RepoSyncStatus } from "@abhimanyu/database/client"
 
 import { githubInstallationService } from "../github/installation.service"
+import * as constants from "./reposync.constants"
 
+// why ?
+// app.octokit → app management APIs (installations, app info, token exchange).
+// app.getInstallationOctokit(...) → anything that operates on repositories owned by an installation (files, commits, issues, pull requests, branches, etc.).
 class RepoSyncService {
-  private readonly repoPerPage = 10
-
   public async findSyncedRepo({ repoFullName }: { repoFullName: string }) {
     return prisma.repoSync.findUnique({
       where: {
         repoFullName,
       },
     })
+  }
+
+  private isIndexableFile(entry: TreeEntry): boolean {
+    if (!entry.path || entry.type !== "blob" || !entry.sha) {
+      return false
+    }
+
+    if (entry.size && entry.size > constants.maxFileSizeBytes) {
+      return false
+    }
+    const filePath = entry.path
+    if (constants.ignoredDirList.some((dir) => dir.includes(filePath))) {
+      return false
+    }
+    return constants.indexableCodeExtensionsList.some((ext) =>
+      filePath.endsWith(ext)
+    )
+  }
+
+  public async updateSyncStatus({
+    status,
+    repoSyncId,
+  }: {
+    status: RepoSyncStatus
+    repoSyncId: string
+  }) {
+    return prisma.repoSync.update({
+      where: {
+        id: repoSyncId,
+      },
+      data: {
+        status,
+      },
+    })
+  }
+
+  public async syncRepo({
+    userId,
+    branch,
+    repoFullName,
+  }: SyncRepoDetails): Promise<string | null> {
+    const installationId =
+      await githubInstallationService.getInstallationIdByUserId({ userId })
+
+    if (!installationId) {
+      return null
+    }
+
+    const syncedRepo = await prisma.repoSync.upsert({
+      where: { repoFullName },
+      create: {
+        status: "Pending",
+        installationId,
+        repoFullName,
+        branch,
+      },
+      update: {
+        status: "Pending",
+        installationId,
+        branch,
+      },
+    })
+
+    return syncedRepo.id
+  }
+
+  public async getRepoFiles({
+    installationId,
+    branch,
+    repoFullName,
+  }: {
+    installationId: number
+    branch: string
+    repoFullName: string
+  }): Promise<RepoFile[] | null> {
+    const [owner, repo] = repoFullName.split("/")
+    const app = githubInstallationService.githubApp
+    if (!owner || !repo || !app) return null
+
+    const octokit = await app.getInstallationOctokit(installationId)
+
+    // get the tree
+    const { data } = await octokit.rest.git.getTree({
+      owner,
+      repo,
+      tree_sha: branch,
+      recursive: "1",
+    })
+
+    // TODO: instead of filter can we ask the ai (small model) if we should index
+    const entries = data.tree
+      .filter(this.isIndexableFile)
+      .slice(0, constants.maxFiles)
+    const files: RepoFile[] = []
+
+    for (const entry of entries) {
+      // returns content as base64 encoded string
+      const { data: blob } = await octokit.rest.git.getBlob({
+        owner,
+        repo,
+        file_sha: entry.sha,
+      })
+
+      const content = Buffer.from(blob.content, "base64").toString("utf-8")
+      files.push({
+        filePath: entry.path,
+        content,
+      })
+    }
+
+    return files
   }
 
   public async getRepos({
@@ -34,7 +153,7 @@ class RepoSyncService {
     const octokit = await app.getInstallationOctokit(installationId)
 
     const { data } = await octokit.rest.apps.listReposAccessibleToInstallation({
-      per_page: limit || this.repoPerPage,
+      per_page: limit || constants.repoPerPage,
       page: cursor ?? 1,
     })
 
@@ -73,8 +192,8 @@ class RepoSyncService {
       repos,
       total,
       hasMore: cursor
-        ? cursor * this.repoPerPage < total
-        : this.repoPerPage < total,
+        ? cursor * constants.repoPerPage < total
+        : constants.repoPerPage < total,
     }
   }
 }
