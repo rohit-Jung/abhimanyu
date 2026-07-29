@@ -19,7 +19,6 @@ export const gitRepo = type({
 
 export const syncRepoDetails = type({
   repoFullName: "string",
-  userId: "string",
   branch: "string",
 })
 

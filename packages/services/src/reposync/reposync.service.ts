@@ -60,7 +60,7 @@ class RepoSyncService {
     userId,
     branch,
     repoFullName,
-  }: SyncRepoDetails): Promise<string | null> {
+  }: SyncRepoDetails & { userId: string }): Promise<string | null> {
     const installationId =
       await githubInstallationService.getInstallationIdByUserId({ userId })
 
