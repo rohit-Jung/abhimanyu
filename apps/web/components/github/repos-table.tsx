@@ -5,6 +5,8 @@ import { LockIcon, LockKeyholeOpenIcon, StarIcon } from "lucide-react"
 
 import { statusBadge } from "@/features/dashboard/lib/status-style"
 
+import SyncRepoButton from "./sync-repo-button"
+
 function RepoRow({ repo }: { repo: GitRepo }) {
   const tone = repo.visibility === "public" ? "info" : "warning"
 
@@ -40,11 +42,11 @@ function RepoRow({ repo }: { repo: GitRepo }) {
         {formatDistanceToNow(new Date(repo.updatedAt), { addSuffix: true })}
       </TableCell>
       <TableCell className="text-right">
-        {/* <SyncRepoButton */}
-        {/*   repoFullName={repo.fullName} */}
-        {/*   branch={repo.defaultBranch} */}
-        {/*   syncStatus={repo.syncStatus ?? null} */}
-        {/* /> */}
+        <SyncRepoButton
+          repoFullName={repo.fullName}
+          branch={repo.defaultBranch}
+          syncStatus={repo.syncStatus ?? null}
+        />
       </TableCell>
     </TableRow>
   )
