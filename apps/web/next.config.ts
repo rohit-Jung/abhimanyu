@@ -3,7 +3,10 @@ import type { NextConfig } from "next"
 const nextConfig: NextConfig = {
   transpilePackages: ["@abhimanyu/ui"],
   allowedDevOrigins: ["unscarfed-elfreda-superrespectably.ngrok-free.dev"],
-  cacheComponents: true,
+  // cacheComponents: true,
+  experimental: {
+    cpus: 2,
+  },
   // async rewrites() {
   //   const apiUrl = process.env.API_URL ?? "http://localhost:4000"
   //   return [
