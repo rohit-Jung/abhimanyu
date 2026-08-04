@@ -12,17 +12,32 @@ datasource db {
   provider = "postgresql"
 }
 
+enum SubscriptionPlan {
+  Free
+  Pro
+}
+
+enum SubscriptionStatus {
+  Active
+  Canceled
+  Trailing
+}
+
 model User {
-  id                 String              @id
-  name               String
-  email              String
-  emailVerified      Boolean             @default(false)
-  image              String?
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  sessions           Session[]
-  accounts           Account[]
-  githubInstallation GithubInstallation?
+  id                   String              @id
+  name                 String
+  email                String
+  emailVerified        Boolean             @default(false)
+  image                String?
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  sessions             Session[]
+  accounts             Account[]
+  githubInstallation   GithubInstallation?
+  subscriptionStatus   SubscriptionStatus?
+  subscriptionPlan     SubscriptionPlan    @default(Free)
+  subscriptionId       String?
+  subscriptionRenewsAt DateTime?
 
   @@unique([email])
   @@map("user")
