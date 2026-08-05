@@ -9,11 +9,11 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  if ((pathname === "/signin" || pathname === "/signup") && session?.user.id) {
+  if (pathname === "/signin" && session?.user.id) {
     return NextResponse.redirect(new URL("/dashboard", request.url))
   }
 
-  if (!session && pathname !== "/signin" && pathname !== "/signup") {
+  if (!session && pathname !== "/signin") {
     return NextResponse.redirect(new URL("/signin", request.url))
   }
 
@@ -21,5 +21,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/signin", "/signup"], // Specify the routes the middleware applies to
+  matcher: ["/dashboard", "/signin"], // Specify the routes the middleware applies to
 }
