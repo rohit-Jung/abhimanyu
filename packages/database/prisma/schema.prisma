@@ -20,6 +20,7 @@ enum SubscriptionPlan {
 enum SubscriptionStatus {
   Active
   Canceled
+  Halted
   Trailing
 }
 
