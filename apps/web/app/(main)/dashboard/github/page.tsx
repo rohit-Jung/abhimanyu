@@ -3,9 +3,9 @@ import { Suspense } from "react"
 
 import { DashboardHeader } from "@/components/dashboard-header"
 import { GithubInstallationCardWrapper } from "@/components/github/github-installation-card-wrapper"
-import { PageMetadata } from "@/lib/constants"
+import { DASHBOARD_ROUTES, PageMetadata } from "@/lib/constants"
 
-export const metadata: Metadata = PageMetadata["/dashboard/github"]
+export const metadata: Metadata = PageMetadata[DASHBOARD_ROUTES.github]
 
 export default function Page() {
   return (

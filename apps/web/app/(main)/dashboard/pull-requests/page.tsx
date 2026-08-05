@@ -1,40 +1,38 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@abhimanyu/ui/components/breadcrumb"
-import { Separator } from "@abhimanyu/ui/components/separator"
-import { SidebarInset, SidebarTrigger } from "@abhimanyu/ui/components/sidebar"
+import { Button } from "@abhimanyu/ui/components/button"
+import { Metadata } from "next"
+import Link from "next/link"
+
+import { DashboardHeader } from "@/components/dashboard-header"
+import { EmptyState } from "@/components/dashboard/empty-state"
+import { DASHBOARD_ROUTES, PageMetadata } from "@/lib/constants"
+
+export const metadata: Metadata = PageMetadata[DASHBOARD_ROUTES.pullRequest]
 
 export default async function Page() {
   return (
-    <SidebarInset>
-      <header className="flex h-16 w-full shrink-0 items-center gap-2 border-b px-4">
-        <SidebarTrigger className="-ml-1" />
-        <Separator
-          orientation="vertical"
-          className="mr-2 data-vertical:h-4 data-vertical:self-auto"
+    <>
+      <DashboardHeader
+        title="Pull Requests"
+        description="Reviews across every repo you connected"
+      />
+
+      <div className="flex flex-1 flex-col p-4 sm:p-6">
+        <EmptyState
+          eyebrow="No open pull requests"
+          title="Nothing to review yet."
+          description="Once a connected repo has an open pull request, its review lands here with the context Abhimanyu gathered from your codebase."
+          action={
+            <Button
+              variant="outline"
+              size="sm"
+              nativeButton={false}
+              render={<Link href={DASHBOARD_ROUTES.repos} />}
+            >
+              Connect a repo
+            </Button>
+          }
         />
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="#">Pull Requests</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator className="hidden md:block" />
-          </BreadcrumbList>
-        </Breadcrumb>
-      </header>
-      <div className="flex w-full flex-1 flex-col gap-4 p-4">
-        <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-          <div className="aspect-video rounded-xl bg-muted/50" />
-          <div className="aspect-video rounded-xl bg-muted/50" />
-          <div className="aspect-video rounded-xl bg-muted/50" />
-        </div>
-        <div className="min-h-screen flex-1 rounded-xl bg-muted/50 md:min-h-min" />
       </div>
-    </SidebarInset>
+    </>
   )
 }
