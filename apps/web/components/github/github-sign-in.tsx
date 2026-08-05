@@ -1,8 +1,15 @@
 import { Button } from "@abhimanyu/ui/components/button"
+import { cn } from "@abhimanyu/ui/lib/utils"
 
 import { authClient } from "@/lib/auth"
 
-export function GithubSignInButton({ callbackUrl }: { callbackUrl: string }) {
+export function GithubSignInButton({
+  callbackUrl,
+  className,
+}: {
+  callbackUrl: string
+  className?: string
+}) {
   return (
     <Button
       onClick={() => {
@@ -11,7 +18,7 @@ export function GithubSignInButton({ callbackUrl }: { callbackUrl: string }) {
           callbackURL: callbackUrl,
         })
       }}
-      className="w-full"
+      className={cn("w-full", className)}
       variant="outline"
       type="button"
     >

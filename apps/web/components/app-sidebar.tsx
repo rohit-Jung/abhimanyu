@@ -47,9 +47,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter className="pb-5">
         <NavUser
           user={{
-            name: data.data?.user.name || "",
-            email: data.data?.user.email || "",
-            avatar: data.data?.user.image || "",
+            name: data.data?.user.name || "unknown",
+            email: data.data?.user.email || "unknown@gmail.com",
+            avatar:
+              data.data?.user.image ||
+              "https://thumbs.dreamstime.com/b/profile-anonymous-face-icon-gray-silhouette-person-male-default-avatar-photo-placeholder-isolated-white-background-profile-107327860.jpg",
           }}
         />
       </SidebarFooter>

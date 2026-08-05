@@ -6,6 +6,6 @@ import { getUserSession } from "@/features/auth/actions/auth"
 
 export async function AuthGate({ children }: { children: React.ReactNode }) {
   const session = await getUserSession()
-  if (!session) redirect("/signup")
+  if (!session) redirect("/signin")
   return <>{children}</>
 }
