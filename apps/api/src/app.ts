@@ -11,6 +11,7 @@ import {
   handleGithubAppCallback,
   handleGithubWebhook,
 } from "./handlers/github.handler"
+import { handleRazorpayWebhook } from "./handlers/razorpay.handler"
 
 const app: Application = express()
 
@@ -27,6 +28,10 @@ app.use(
 app
   .route("/api/github/webhook")
   .post(express.raw({ type: "application/json" }), handleGithubWebhook)
+
+app
+  .route("/api/razorpay/webhook")
+  .post(express.raw({ type: "application/json" }), handleRazorpayWebhook)
 
 app.all("/api/auth/*splat", toNodeHandler(auth))
 
