@@ -1,4 +1,4 @@
-import { SidebarProvider } from "@abhimanyu/ui/components/sidebar"
+import { SidebarInset, SidebarProvider } from "@abhimanyu/ui/components/sidebar"
 
 import { AppSidebar } from "@/components/app-sidebar"
 
@@ -10,7 +10,7 @@ export default async function Layout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="w-full">{children}</main>
+      <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>
   )
 }
