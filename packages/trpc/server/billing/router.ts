@@ -10,7 +10,7 @@ export const billingRouter = router({
     })
 
     if (res.error) {
-      return new TRPCError({
+      throw new TRPCError({
         message: res.error,
         code: "BAD_REQUEST",
         cause: res.error,
@@ -26,7 +26,7 @@ export const billingRouter = router({
     })
 
     if (res.error) {
-      return new TRPCError({
+      throw new TRPCError({
         message: res.error,
         code: "BAD_REQUEST",
         cause: res.error,

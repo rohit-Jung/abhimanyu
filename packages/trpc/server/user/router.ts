@@ -27,8 +27,8 @@ export const userRouter = router({
           status: userInfo?.subscriptionStatus ?? "Trailing",
           renewsAt: userInfo.subscriptionRenewsAt?.toISOString() ?? null,
         },
-        usuage: {
-          usuage: 0,
+        usage: {
+          usage: 0,
           limit: 0,
         },
       }
