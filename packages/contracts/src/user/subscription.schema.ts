@@ -8,11 +8,11 @@ export const userSubscriptionInfo = type({
   renewsAt: "string | null",
 })
 
-export const usuageSummary = type({
-  usuage: "number",
+export const usageSummary = type({
+  usage: "number",
   limit: "number | null",
 })
 
-export type UsageSummary = typeof usuageSummary.infer
+export type UsageSummary = typeof usageSummary.infer
 export type UserSubscription = typeof userSubscriptionInfo.infer
 export type SubscriptionPlan = typeof subscriptionPlan.infer

@@ -1,6 +1,6 @@
 import { type } from "arktype"
 
-import { userSubscriptionInfo, usuageSummary } from "./subscription.schema"
+import { userSubscriptionInfo, usageSummary } from "./subscription.schema"
 
 export const userPersonalInfo = type({
   name: "string",
@@ -12,7 +12,7 @@ export const userPersonalInfo = type({
 export const userInfo = type({
   profile: userPersonalInfo,
   subscription: userSubscriptionInfo,
-  usuage: usuageSummary,
+  usage: usageSummary,
 })
 
 export type UserProfileInfo = typeof userPersonalInfo.infer
