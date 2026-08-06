@@ -11,7 +11,7 @@ export const useCancelSubscription = () => {
   return useMutation(
     trpc.billing.cancel.mutationOptions({
       onSuccess: () => {
-        toast.success("Successfully canceled.")
+        toast.success("Successfully canceled subscription.")
         queryClient.invalidateQueries({
           queryKey: trpc.user.getUserSettings.queryKey(),
         })
@@ -34,7 +34,7 @@ export const useCreateSubscription = () => {
   return useMutation(
     trpc.billing.upgrade.mutationOptions({
       onSuccess: () => {
-        toast.success("Successfully canceled.")
+        toast.success("Successfully created subscription.")
         queryClient.invalidateQueries({
           queryKey: trpc.user.getUserSettings.queryKey(),
         })
@@ -43,7 +43,7 @@ export const useCreateSubscription = () => {
         const message =
           error instanceof Error
             ? error.message
-            : "Could not cancel subscription."
+            : "Could not created subscription."
         toast.error(message)
       },
     })

@@ -17,8 +17,7 @@ export default function SyncRepoButton({
   syncStatus,
 }: RepoSyncButtonProps) {
   const { mutate, isPending } = useSyncRepo()
-  const isAlreadySynced = false
-  // syncStatus === "Synced"
+  const isAlreadySynced = syncStatus === "Synced"
 
   return (
     <Button
