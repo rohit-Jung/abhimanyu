@@ -13,6 +13,7 @@ export function validateData<T>(
   return { success: true, data: validatedData as T }
 }
 
+export * from "./analytics/analytics.schema"
 export * from "./github/github-installation.schema"
 export * from "./github/github-pullrequest.schema"
 export * from "./github/github-reposync.schema"
