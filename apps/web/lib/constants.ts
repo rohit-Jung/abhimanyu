@@ -183,3 +183,27 @@ export const PLAN_DETAILS: Record<
     ],
   },
 }
+
+export const SETUP_STEPS = [
+  {
+    title: "Connect GitHub",
+    description:
+      "Install the Abhimanyu app on the account or org that owns your repos.",
+    href: DASHBOARD_ROUTES.github,
+    action: "Open GitHub setup",
+  },
+  {
+    title: "Choose repos",
+    description:
+      "Pick the repos Abhimanyu should index. Each one is chunked and embedded for retrieval.",
+    href: DASHBOARD_ROUTES.repos,
+    action: "Choose repos",
+  },
+  {
+    title: "Read a review",
+    description:
+      "Open a pull request. Abhimanyu reviews it with context from the whole codebase, not just the diff.",
+    href: DASHBOARD_ROUTES.pullRequest,
+    action: "View pull requests",
+  },
+]
