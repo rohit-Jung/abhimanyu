@@ -84,7 +84,7 @@ export async function handleGithubWebhook(req: Request, res: Response) {
     await githubPullRequestService.savePullRequest(pullRequestData)
 
   // check if user can review
-  const userId = githubInstallationService.getUserIdByInstallationId({
+  const userId = await githubInstallationService.getUserIdByInstallationId({
     installationId: pullRequestData.installation.id,
   })
 
@@ -98,7 +98,7 @@ export async function handleGithubWebhook(req: Request, res: Response) {
   // const allowed = await canUserReview();
 
   // get the signature verify the signature
-  inngestClient.send(
+  await inngestClient.send(
     prReceivedEvent.create({
       pullRequestId: pullRequest.id,
     })
