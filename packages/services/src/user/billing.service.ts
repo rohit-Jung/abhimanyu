@@ -7,12 +7,10 @@ class BillingService {
   private razorpay: Razorpay | null = null
 
   constructor() {
-    if (!this.razorpay) {
-      this.razorpay = new Razorpay({
-        key_id: process.env.RAZOR_PAY_API_KEY,
-        key_secret: process.env.RAZOR_PAY_SECRET,
-      })
-    }
+    this.razorpay = new Razorpay({
+      key_id: process.env.RAZOR_PAY_API_KEY,
+      key_secret: process.env.RAZOR_PAY_SECRET,
+    })
   }
 
   public async createProSubscription({ userId }: { userId: string }) {

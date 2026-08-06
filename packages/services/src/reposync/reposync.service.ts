@@ -31,7 +31,11 @@ class RepoSyncService {
       return false
     }
     const filePath = entry.path
-    if (constants.ignoredDirList.some((dir) => dir.includes(filePath))) {
+    if (
+      constants.ignoredDirList.some(
+        (dir) => filePath.startsWith(dir) || filePath.includes("/" + dir)
+      )
+    ) {
       return false
     }
     return constants.indexableCodeExtensionsList.some((ext) =>
@@ -192,7 +196,7 @@ class RepoSyncService {
       repos,
       total,
       hasMore: cursor
-        ? cursor * constants.repoPerPage < total
+        ? cursor * (limit ?? constants.repoPerPage) < total
         : constants.repoPerPage < total,
     }
   }
